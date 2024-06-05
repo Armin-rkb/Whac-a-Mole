@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,6 +20,16 @@ public class Mole : MonoBehaviour, IMole
     private readonly string ANIMATION_STATE_POPUP = "Mole_Popup";
 
     public int Score => score;
+
+    private void Awake()
+    {
+        GameTimer.GameEndEvent += OnGameEnd;
+    }
+
+    private void OnDestroy()
+    {
+        GameTimer.GameEndEvent -= OnGameEnd;
+    }
 
     void Update()
     {
@@ -100,5 +111,10 @@ public class Mole : MonoBehaviour, IMole
     {
         yield return new WaitForSeconds(appearingTime);
         Hide();
+    }
+
+    private void OnGameEnd()
+    {
+        hitBox.enabled = false;
     }
 }

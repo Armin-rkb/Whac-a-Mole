@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class GameTimer : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class GameTimer : MonoBehaviour
     [SerializeField] private GameEndUI gameEndUI;
     private float timeRemaining = 10;
     private bool timerIsRunning = false;
+
+    public static event Action GameEndEvent;
 
     private void Start()
     {
@@ -35,6 +38,7 @@ public class GameTimer : MonoBehaviour
                 timerIsRunning = false;
                 timeText.text = "Time is up!";
                 gameEndUI.ShowEndScreen();
+                GameEndEvent?.Invoke();
             }
         }
     }
