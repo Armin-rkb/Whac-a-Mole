@@ -63,7 +63,7 @@ public class Mole : MonoBehaviour, IMole
         {
             StopCoroutine(waitBeforeHidingCoroutine);
         }
-        ScoreManager.Instance.AddScore(Score);  
+        GameScoreManager.Instance.AddScore(Score);  
         hitBox.enabled = false;
         ChangeAnimationState(ANIMATION_STATE_HIT);
         hole.Vacate();

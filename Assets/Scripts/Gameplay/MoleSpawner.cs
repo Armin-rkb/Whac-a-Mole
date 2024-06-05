@@ -7,7 +7,8 @@ public class MoleSpawner : MonoBehaviour
 {
     // The amount of possible moles which can appear.
     [SerializeField] int moleHoles;
-    [SerializeField] float moleSpawnTimeSeconds = 1.5f;
+    [SerializeField] float minMoleSpawnTime = 0.5f;
+    [SerializeField] float maxMoleSpawnTime= 1.5f;
 
     [SerializeField] private Mole molePrefab;
     [SerializeField] private Hole holePrefab;
@@ -39,6 +40,8 @@ public class MoleSpawner : MonoBehaviour
 
     private void SpawnMole()
     {
+        print("Mole spawned");
+
         // Create a new list to find available holes for a mole to spawn.
         List<Hole> availableHoles = holes.Where(hole => !hole.IsOccupied).ToList();
         if (availableHoles.Count == 0)
@@ -58,7 +61,7 @@ public class MoleSpawner : MonoBehaviour
     {
         while (canSpawnMoles)
         {
-            yield return new WaitForSeconds(moleSpawnTimeSeconds);
+            yield return new WaitForSeconds(Random.Range(minMoleSpawnTime, maxMoleSpawnTime));
             SpawnMole();
         }
     }

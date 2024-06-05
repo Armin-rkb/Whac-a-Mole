@@ -5,6 +5,7 @@ public class GameTimer : MonoBehaviour
 {
     [SerializeField] private float startTimeInSeconds;
     [SerializeField] private TMP_Text timeText;
+    [SerializeField] private GameEndUI gameEndUI;
     private float timeRemaining = 10;
     private bool timerIsRunning = false;
 
@@ -33,6 +34,7 @@ public class GameTimer : MonoBehaviour
                 timeRemaining = 0;
                 timerIsRunning = false;
                 timeText.text = "Time is up!";
+                gameEndUI.ShowEndScreen();
             }
         }
     }

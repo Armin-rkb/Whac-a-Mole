@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public class GameScoreManager : MonoBehaviour
 {
-    [SerializeField] private ScoreUI scoreUI;
+    [SerializeField] private GameScoreUI scoreUI;
     private int score;
     
-    public static ScoreManager Instance;
+    public static GameScoreManager Instance;
     private void Awake()
     {
         if (Instance != null)
