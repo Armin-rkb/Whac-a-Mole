@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,12 +16,14 @@ public class HighScoreUI : MonoBehaviour
     {
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
     }
 
     public void ShowHighScores()
     {
         canvasGroup.alpha = 1.0f;
         canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
         CreateHighScoreList();
     }
 
@@ -39,7 +40,6 @@ public class HighScoreUI : MonoBehaviour
         List<HighScoreEntry> highScores = HighScoreManager.Instance.GetHighScores();
         foreach (HighScoreEntry entry in highScores)
         {
-            Debug.Log($"Player: {entry.playerName}, Score: {entry.score}");
             HighscoreElement newHighscoreElement = Instantiate(HighscoreElementPrefab, highscoreContentList);
             newHighscoreElement.SetHighscore(entry.playerName, entry.score);
         }

@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: High-Scores
+  m_text: HIGH SCORES
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3860,6 +3860,11 @@ MonoBehaviour:
   moleHoles: 9
   minMoleSpawnTime: 0.2
   maxMoleSpawnTime: 1.2
+  rows: 3
+  columns: 3
+  randomness: 0.5
+  topLeftCorner: {x: -5, y: 2}
+  bottomRightCorner: {x: 5, y: -3}
   molePrefab: {fileID: 3982982816300632574, guid: 7f89b04e23b3e764f8a28daf83ad45d5, type: 3}
   holePrefab: {fileID: -4727268873563118963, guid: da51e14e8e837024fb16cbfff6909a66, type: 3}
 --- !u!4 &1777146578

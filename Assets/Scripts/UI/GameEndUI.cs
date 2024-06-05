@@ -30,6 +30,7 @@ public class GameEndUI : MonoBehaviour
     
     public void ShowEndScreen()
     {
+        Time.timeScale = 0;
         scoreText.text = GameScoreManager.Instance.GetScore().ToString();
         backgroundImage.enabled = true;
         gameEndScreen.SetActive(true);

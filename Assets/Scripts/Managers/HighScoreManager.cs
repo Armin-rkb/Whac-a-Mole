@@ -18,6 +18,7 @@ public class HighScoreManager : MonoBehaviour
         }
     }
 
+    // All highscores are saved in a single long string. 
     public void SaveHighScore(string playerName, int score)
     {
         List<HighScoreEntry> highScores = GetHighScores();
@@ -39,6 +40,7 @@ public class HighScoreManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    // Retrieve the long highscore string, split it to get every individual user with score to a list.
     public List<HighScoreEntry> GetHighScores()
     {
         List<HighScoreEntry> highScores = new List<HighScoreEntry>();

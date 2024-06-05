@@ -10,6 +10,14 @@ public class MoleSpawner : MonoBehaviour
     [SerializeField] float minMoleSpawnTime = 0.5f;
     [SerializeField] float maxMoleSpawnTime= 1.5f;
 
+    [Header("Hole Spawn Location")]
+    [SerializeField] private int rows = 3;
+    [SerializeField] private int columns = 2;
+    [SerializeField] private float randomOffset = 0.5f;
+    [Header("Safe area in which the holes will spawn")]
+    [SerializeField] private Vector2 topLeftCorner = new Vector2(-5, 2);
+    [SerializeField] private Vector2 bottomRightCorner = new Vector2(5, -3);
+
     [SerializeField] private Mole molePrefab;
     [SerializeField] private Hole holePrefab;
 
@@ -26,21 +34,41 @@ public class MoleSpawner : MonoBehaviour
     private void SpawnHoles()
     {
         holes = new Hole[moleHoles];
-        for (int i = 0; i < moleHoles; i++)
-        {
-            float spawnPosX = Random.Range(-5, 5);
-            float spawnPosY = Random.Range(-3, 2);
-            Vector2 spawnPos = new Vector2(spawnPosX, spawnPosY);
 
-            Hole hole = Instantiate(holePrefab, spawnPos, Quaternion.identity);
-            holes[i] = hole;
+        float boxWidth = bottomRightCorner.x - topLeftCorner.x;
+        float boxHeight = topLeftCorner.y - bottomRightCorner.y;
+
+        float spacingX = boxWidth / (columns - 1);
+        float spacingY = boxHeight / (rows - 1);
+
+        int i = 0;
+        for (int row = 0; row < rows; row++)
+        {
+            for (int column = 0; column < columns; column++)
+            {
+                // Calculate the spawn point position
+                Vector2 position = new Vector3(
+                    topLeftCorner.x + column * spacingX + Random.Range(-randomOffset, randomOffset),
+                    topLeftCorner.y - row * spacingY + Random.Range(-randomOffset, randomOffset)
+                );
+
+                // Ensure the position stays within the bounds
+                position.x = Mathf.Clamp(position.x, topLeftCorner.x, bottomRightCorner.x);
+                position.y = Mathf.Clamp(position.y, bottomRightCorner.y, topLeftCorner.y);
+
+                // Instantiate the spawn point
+                Hole hole = Instantiate(holePrefab, position, Quaternion.identity);
+                holes[i] = hole;
+                i++;
+            }
         }
         canSpawnMoles = true;
     }
 
     private void SpawnMole()
     {
-        print("Mole spawned");
+        if (holes[0] == null)
+            return;
 
         // Create a new list to find available holes for a mole to spawn.
         List<Hole> availableHoles = holes.Where(hole => !hole.IsOccupied).ToList();
@@ -53,8 +81,9 @@ public class MoleSpawner : MonoBehaviour
         Hole selectedHole = availableHoles[Random.Range(0, availableHoles.Count)];
 
         Mole mole = Instantiate(molePrefab, selectedHole.transform.position, Quaternion.identity);
-        mole.SetHole(selectedHole);
         selectedHole.Occupy(mole);
+        mole.SetHole(selectedHole);
+        mole.PopUp();
     }
 
     private IEnumerator MoleSpawnRoutine()

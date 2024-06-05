@@ -5,6 +5,7 @@ public class Mole : MonoBehaviour, IMole
 {
     [SerializeField] private int score;
     [SerializeField] private float appearingTime = 1f;
+    [SerializeField] private float returnTime = 0.5f;
     [SerializeField] private Collider2D hitBox;
     [SerializeField] private Animator animator;
 
@@ -21,7 +22,7 @@ public class Mole : MonoBehaviour, IMole
 
     void Update()
     {
-        if (isAppearing)
+        if (!isAppearing)
             return;
 
         if (Input.touchCount > 0)
@@ -54,7 +55,7 @@ public class Mole : MonoBehaviour, IMole
 
         ChangeAnimationState(ANIMATION_STATE_HIDE);
 
-        hole.Vacate();
+        StartCoroutine(WaitAndVacateHole());
     }
 
     public void Hit()
@@ -66,7 +67,7 @@ public class Mole : MonoBehaviour, IMole
         GameScoreManager.Instance.AddScore(Score);  
         hitBox.enabled = false;
         ChangeAnimationState(ANIMATION_STATE_HIT);
-        hole.Vacate();
+        StartCoroutine(WaitAndVacateHole());
     }
 
     public void PopUp()
@@ -89,8 +90,14 @@ public class Mole : MonoBehaviour, IMole
         curAnimationState = newState;
     }
 
+    private IEnumerator WaitAndVacateHole()
+    {
+        yield return new WaitForSeconds(returnTime);
+        hole.Vacate();
+    }
+
     private IEnumerator WaitBeforeHidingRoutine()
-    { 
+    {
         yield return new WaitForSeconds(appearingTime);
         Hide();
     }
